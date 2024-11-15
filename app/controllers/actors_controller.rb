@@ -14,4 +14,32 @@ class ActorsController < ApplicationController
       
     render({ :template => "actor_templates/show" })
   end
+  
+  def insert_actor
+    actor = Actor.new
+    actor.bio = params['query_bio']
+    actor.dob = params['query_dob']
+    actor.image = params['query_image']
+    actor.name = params['query_name']
+    actor.save
+
+    redirect_to("/actors")
+  end
+
+  def update_actor
+    actor = Actor.where({ :id => params['path_id'] })[0]
+    actor.bio = params['query_bio']
+    actor.dob = params['query_dob']
+    actor.image = params['query_image']
+    actor.name = params['query_name']
+    actor.save
+
+    redirect_to("/actors/#{params['path_id']}")
+  end
+
+  def delete_actor
+    Actor.where({ :id => params['path_id'] })[0].destroy
+    redirect_to("/actors")
+  end
+
 end
